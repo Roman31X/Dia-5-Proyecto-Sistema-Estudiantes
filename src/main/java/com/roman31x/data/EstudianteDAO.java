@@ -9,7 +9,7 @@ import static com.roman31x.conexion.Conexion.getConexion;
 // DAO -> Data Access Object
 public class EstudianteDAO {
 
-    String sqlListar = "SELECT * FROM estudiante ORDER BY id_estudiantes";
+    String sqlListar = "SELECT * FROM estudiante";
 
     public List<Estudiante> listarEstudiantes(){
         List<Estudiante> estudiantes = new ArrayList<>();
@@ -21,11 +21,12 @@ public class EstudianteDAO {
             rs = ps.executeQuery();
             while(rs.next()){
                 var estudiante = new Estudiante();
-                estudiante.setIdEstudiante(rs.getInt("id_estudinate"));
+                estudiante.setIdEstudiante(rs.getInt("id_estudiante"));
                 estudiante.setNombre(rs.getString("nombre"));
                 estudiante.setApellido(rs.getString("apellido"));
                 estudiante.setTelefono(rs.getString("telefono"));
                 estudiante.setEmail(rs.getString("email"));
+                estudiantes.add(estudiante);
             }
         }catch (Exception e){
             System.out.println("Ocurrió un error al seleccionar datos: " + e.getMessage());
