@@ -11,6 +11,8 @@ public class EstudianteDAO {
 
     String sqlListar = "SELECT * FROM estudiante";
     String sqlBuscarId = "SELECT * FROM estudiante WHERE id_estudiante = ?";
+    String sqlInsertar = "INSERT INTO estudiante(nombre, apellido, telefono, email) " +
+            " VALUES(?, ?, ?, ?)";
 
     public List<Estudiante> listarEstudiantes(){
         List<Estudiante> estudiantes = new ArrayList<>();
@@ -63,6 +65,29 @@ public class EstudianteDAO {
                 con.close();
             }catch (Exception e){
                 System.out.println("Ocurrió un erro al cerrar la conexión: "+e.getMessage());
+            }
+        }
+        return false;
+    }
+
+    public boolean agregarEstudiante(Estudiante estudiante){
+        PreparedStatement ps;
+        Connection con = getConexion();
+        try{
+            ps = con.prepareStatement(sqlInsertar);
+            ps.setString(1,estudiante.getNombre());
+            ps.setString(2,estudiante.getApellido());
+            ps.setString(3,estudiante.getTelefono());
+            ps.setString(4,estudiante.getEmail());
+            ps.execute();
+            return true;
+        }catch (Exception e){
+            System.out.println("Ocurrio un error al insertar estudiante: "+e.getMessage());
+        }finally {
+            try{
+                con.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar la conexión a la base de datos");
             }
         }
         return false;
