@@ -10,6 +10,7 @@ import static com.roman31x.conexion.Conexion.getConexion;
 public class EstudianteDAO {
 
     String sqlListar = "SELECT * FROM estudiante";
+    String sqlBuscarId = "SELECT * FROM estudiante WHERE id_estudiante = ?";
 
     public List<Estudiante> listarEstudiantes(){
         List<Estudiante> estudiantes = new ArrayList<>();
@@ -38,5 +39,32 @@ public class EstudianteDAO {
             }
         }
         return estudiantes;
+    }
+
+    public boolean buscarEstudiantePorId(Estudiante estudiante){
+        PreparedStatement ps;
+        ResultSet rs;
+        Connection con = getConexion();
+        try{
+            ps = con.prepareStatement(sqlBuscarId);
+            ps.setInt(1,estudiante.getIdEstudiante());
+            rs = ps.executeQuery();
+            if(rs.next()){
+                estudiante.setNombre(rs.getString("nombre"));
+                estudiante.setApellido(rs.getString("apellido"));
+                estudiante.setTelefono(rs.getString("telefono"));
+                estudiante.setEmail(rs.getString("email"));
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println("Ocurrió un error al buscar estudiante"+ e.getMessage());
+        }finally {
+            try{
+                con.close();
+            }catch (Exception e){
+                System.out.println("Ocurrió un erro al cerrar la conexión: "+e.getMessage());
+            }
+        }
+        return false;
     }
 }
