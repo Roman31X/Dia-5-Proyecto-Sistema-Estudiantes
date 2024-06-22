@@ -71,8 +71,7 @@ public class Estudiante {
 
     @Override
     public String toString() {
-        return "Estudiante: " +
-                "ID Estudiante: [" + idEstudiante +
+        return "ID Estudiante: [" + idEstudiante +
                 "] Nombre: [" + nombre +
                 "] Apellido: [" + apellido +
                 "] Teléfono: [" + telefono +
